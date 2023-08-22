@@ -5,7 +5,7 @@ function addNodeToContainer(type, name, parentId, id) {
 
   if (type === "Folder") {
     const toggleButton = document.createElement("span");
-    toggleButton.classList.add("fas", "fa-chevron-right", "toggle-button");
+    toggleButton.classList.add("fas", "fa-chevron-down", "toggle-button");
     toggleButton.style.marginRight = "5px";
 
     const createIcon = document.createElement("span");
@@ -48,15 +48,15 @@ function addNodeToContainer(type, name, parentId, id) {
       "delete-button",
       "buttons"
     );
-    createDeleteButton.style.marginRight="10px";
+    createDeleteButton.style.marginRight = "10px";
 
-    const createEditButton=document.createElement("span");
+    const createEditButton = document.createElement("span");
     createEditButton.classList.add(
       "fas",
       "fa-pencil-alt",
       "edit-button",
       "buttons"
-    )
+    );
 
     newNode.appendChild(toggleButton);
     newNode.appendChild(createIcon);
@@ -84,14 +84,14 @@ function addNodeToContainer(type, name, parentId, id) {
       "delete-button",
       "buttons"
     );
-    createDeleteButton.style.marginRight="10px";
-    const createEditButton=document.createElement("span");
+    createDeleteButton.style.marginRight = "10px";
+    const createEditButton = document.createElement("span");
     createEditButton.classList.add(
       "fas",
       "fa-pencil-alt",
       "edit-button",
       "buttons"
-    )
+    );
 
     newNode.appendChild(createIcon1);
     newNode.appendChild(labelName);

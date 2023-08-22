@@ -1,4 +1,4 @@
-let lastId = 0;
+var lastId = 0;
 function getUniqueId() {
   lastId += 1;
   return lastId.toString();
@@ -110,14 +110,4 @@ function editNode(id, newName) {
   } else {
     console.log("Element To Edit Dosen't exist.");
   }
-}
-
-let r = 65;
-let g = 105;
-let b = 225;
-function generateRandomColor() {
-  r = r + 10;
-  g = g + 10;
-  b = b - 10;
-  return `rgb(${r},${g},${b})`;
 }

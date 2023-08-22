@@ -1,5 +1,5 @@
 function customMain() {
-  const nameSet=new Set();
+  const nameSet = FileExplorerStore.getSet();
   // const inputName=document.querySelector("#inputName").value;
   document.addEventListener("click", function (event) {
     const clickedElement = event.target;
@@ -12,9 +12,8 @@ function customMain() {
         Dispatcher.dispatch(addNodeToList(inputName, "File", parentId));
         FileExplorerView.render();
         document.querySelector("#inputName").value = "";
-      }
-      else{
-        console.error("Please Enter The Name Correcctly");
+      } else {
+        alert("Please Enter The Name Correcctly");
       }
     }
 
@@ -27,8 +26,7 @@ function customMain() {
         Dispatcher.dispatch(addNodeToList(inputName, "Folder", parentId));
         FileExplorerView.render();
         document.querySelector("#inputName").value = "";
-      }
-      else{
+      } else {
         console.error("Please Enter The Name Correcctly");
       }
     }
@@ -38,18 +36,18 @@ function customMain() {
       Dispatcher.dispatch(deleteNodeToList(idOfElementToDelete));
       FileExplorerView.render();
     }
-    if(clickedElement.classList.contains("edit-button")){
+    if (clickedElement.classList.contains("edit-button")) {
       const parentToEdit = event.target.closest(".parentDiv");
       const idOfElementToEdit = parentToEdit.getAttribute("id");
-      const editedName=prompt("Please enter a number:");
-      if(editedName && isValidString(editedName) && !nameSet.has(editedName)){
-        Dispatcher.dispatch(editNodeFromList(idOfElementToEdit,editedName));
+      const editedName = prompt("Please enter a number:");
+      if (editedName && isValidString(editedName) && !nameSet.has(editedName)) {
+        Dispatcher.dispatch(editNodeFromList(idOfElementToEdit, editedName));
         FileExplorerView.render();
         document.querySelector("#inputName").value = "";
       }
     }
-    if(clickedElement.classList.contains("toggle-button")){
-      const parentDiv=clickedElement.closest(".parentDiv");
+    if (clickedElement.classList.contains("toggle-button")) {
+      const parentDiv = clickedElement.closest(".parentDiv");
       const childDivs = parentDiv.querySelectorAll(".parentDiv > div");
       if (clickedElement.classList.contains("fa-chevron-right")) {
         clickedElement.classList.replace("fa-chevron-right", "fa-chevron-down");

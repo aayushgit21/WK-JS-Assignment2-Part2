@@ -17,24 +17,51 @@ const FileExplorerStore = {
     type: "Folder",
     children: [],
   },
+  localStore: {
+    nameSet: new Set(),
+  },
   getState() {
     return this.state;
+  },
+  getSet() {
+    return this.localStore.nameSet;
   },
   handleAction(action) {
     if (action.type === "AddNode") {
       createNode(action.nodeType, action.name, action.parentId);
       this.emitChange();
+      this.saveStateToLocalStorage();
     } else if (action.type === "DeleteNode") {
       deleteNode(action.id);
       this.emitChange();
-    }
-    else if(action.type === "EditNode"){
-      editNode(action.id,action.newName);
+      this.saveStateToLocalStorage();
+    } else if (action.type === "EditNode") {
+      editNode(action.id, action.newName);
       this.emitChange();
+      this.saveStateToLocalStorage();
     }
   },
   emitChange() {
     console.log("Store changed:", this.state);
+  },
+  saveStateToLocalStorage() {
+    const serializedState = JSON.stringify(this.state);
+    localStorage.setItem("fileExplorerState", serializedState);
+
+    const nameSetArray = Array.from(this.localStore.nameSet);
+    const serializedNameSet = JSON.stringify(nameSetArray);
+    localStorage.setItem("nameSet", serializedNameSet);
+  },
+  loadStateFromLocalStorage() {
+    const serializedState = localStorage.getItem("fileExplorerState");
+    const localSet = localStorage.getItem("nameSet");
+    if (serializedState) {
+      this.state = JSON.parse(serializedState);
+    }
+    if (localSet) {
+      const nameSetArray = JSON.parse(localSet);
+      this.localStore.nameSet = new Set(nameSetArray);
+    }
   },
 };
 
@@ -45,7 +72,8 @@ const FileExplorerView = {
   init() {
     this.renderDiv = document.querySelector("#root");
     console.log("root element: ", this.renderDiv);
-    // this.render(); // Call render after initializing renderDiv
+    FileExplorerStore.loadStateFromLocalStorage();
+    this.render(); // Call render after initializing renderDiv
   },
 
   render() {
@@ -75,12 +103,12 @@ function deleteNodeToList(id) {
     id,
   };
 }
-function editNodeFromList(id,newName){
-  return{
+function editNodeFromList(id, newName) {
+  return {
     type: "EditNode",
     id,
-    newName
-  }
+    newName,
+  };
 }
 
 //Connect Store cto Dispatcher
